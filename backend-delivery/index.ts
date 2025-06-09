@@ -13,8 +13,8 @@ const databaseConnect = async () => {
   }
 };
 const Users = new Schema({
-  email: { type: String, required: true },
-  password: { type: String, required: true },
+  email: { type: String, require: true },
+  password: { type: String, require: true },
 
   createsAt: { type: Date, default: Date.now, immutable: true }, //immutable: true  data ni daraa ni oorchlogdohgui
   updatedAt: { type: Date, default: Date.now },
