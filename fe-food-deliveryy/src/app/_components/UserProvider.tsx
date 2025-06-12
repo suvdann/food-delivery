@@ -23,31 +23,31 @@ export const AuthContext = createContext<AuthContextType>(
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<UserData | null>(null);
-  console.log(user)
+
   const tokenChecker = async (token: string) => {
     try {
-      console.log("Working")
+      console.log("Working");
       const response = await axios.post("http://localhost:8000/verify", {
         token: token,
       });
-      console.log(response)
-      setUser({userId:response.data.destructToken.userId })
+      console.log(response);
+      setUser({ userId: response.data.destructToken.userId });
     } catch (err) {
       router.push("/login");
     }
   };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       tokenChecker(token);
-    }else{
-        router.push("/login")
     }
-  },[]);
+  }, []);
+
   return (
-    <AuthContext.Provider value={{user, tokenChecker}}>
-        {children}
+    <AuthContext.Provider value={{ user, tokenChecker }}>
+      {children}
     </AuthContext.Provider>
- )
+  );
 };
-export const useAuth=()=>useContext<AuthContextType>(AuthContext)
+export const useAuth = () => useContext<AuthContextType>(AuthContext);

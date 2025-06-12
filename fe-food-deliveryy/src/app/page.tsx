@@ -1,19 +1,22 @@
-"use client"
-import { redirect } from "next/dist/server/api-utils"
-import { useAuth } from "./_components/UserProvider"
-import { useRouter } from "next/navigation"
-export default function  Homepage(){
-const router=useRouter()
-  const {user}=useAuth()
-  console.log(user)
-  if(!user){
-    router.push("/login")
+"use client";
+
+import { useAuth } from "./_components/UserProvider";
+import { redirect } from "next/navigation";
+
+export default function Homepage() {
+  const { user } = useAuth();
+
+  if (user && !user) {
+    redirect("/login");
   }
-  return <div>
-  <p>Homepagel</p>
+
+  return (
+    <div>
+      <p>Homepage</p>
 
       {user?.userId}
-  </div>
+    </div>
+  );
 }
 // export default Homepage
 //user id baihgui bol login ruu pushlen

@@ -6,14 +6,13 @@ import { ChevronLeft } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 import * as Yup from "yup";
-import axios from "axios"
-
+import axios from "axios";
+import { useAuth } from "@/app/_components/UserProvider";
 
 // type LoginProps = {
 //   changeHandler: () => void;
 // setEmail: Dispatch<SetStateAction<string>>;
 // };
- 
 
 const validationSchemaLogin = Yup.object({
   email: Yup.string()
@@ -29,34 +28,30 @@ const validationSchemaLogin = Yup.object({
 });
 
 export const LoginEmail = () => {
-
-const router=useRouter()
+  const router = useRouter();
+  const { tokenChecker } = useAuth();
 
   const formik = useFormik({
     initialValues: {
       email: "",
-      password:'',
+      password: "",
     },
-    validationSchema:validationSchemaLogin,
+    validationSchema: validationSchemaLogin,
     onSubmit: async (values) => {
-      try{
-            const response = await axios.post("http://localhost:8000/login", {
-        email: values.email,
-        password: values.password
-      })
-      console.log(response.data);
-      
-      // alert(response.data.token)
-      localStorage.setItem("token", response.data.token);
-      router.push("/")
-      } catch(err:any){
-        console.log(err.response.data);
-        alert(err.response.data.message)
-      }
-  
-      
+      try {
+        const response = await axios.post("http://localhost:8000/login", {
+          email: values.email,
+          password: values.password,
+        });
 
-      
+        localStorage.setItem("token", response.data.token);
+        await tokenChecker(response.data.token);
+
+        redirect("/");
+      } catch (err: any) {
+        console.log(err.response.data);
+        alert(err.response.data.message);
+      }
     },
   });
 
@@ -67,20 +62,17 @@ const router=useRouter()
     onBlur: formik.handleBlur,
   };
 
-  const passInputProps={
+  const passInputProps = {
     name: "password",
     value: formik.values.password,
     onChange: formik.handleChange,
     onBlur: formik.handleBlur,
-  }
+  };
 
-
-
-  
   return (
     <div className="flex flex-col  justify-center gap-6  w-[416px] h-full">
       <div className="flex items-start justify-start w-full">
-        <Button variant="outline" onClick={() => redirect('/signup')}>
+        <Button variant="outline" onClick={() => redirect("/signup")}>
           <ChevronLeft />
         </Button>
       </div>
@@ -101,19 +93,28 @@ const router=useRouter()
             {formik.touched && formik.errors.password}
           </div>
         </div>
-              <div>
-        <Button variant="link" className="">
-          Forgot password
+        <div>
+          <Button
+            variant="link"
+            className=""
+            onClick={() => redirect("/resetpassword")}
+          >
+            Forgot password
+          </Button>
+        </div>
+        <Button type="submit" className="w-full">
+          Let's Go
         </Button>
-      </div>
-      <Button type="submit" className="w-full">Let's Go</Button>
       </form>
-
 
       <div className="flex justify-center items-center">
         <p className="text-[#71717A]">
           Don't have an account?
-          <Button variant="link" className="text-[#2563EB]" onClick={() => redirect('/signup')}>
+          <Button
+            variant="link"
+            className="text-[#2563EB]"
+            onClick={() => redirect("/signup")}
+          >
             Sign up
           </Button>
         </p>
