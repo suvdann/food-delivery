@@ -14,6 +14,8 @@ const databaseConnect = async () => {
     console.log(err);
   }
 };
+
+
 const Users = new Schema({
   email: { type: String, require: true },
   password: { type: String, require: true },
@@ -117,4 +119,5 @@ response.send("success")
 app.listen(8000, () => {
   console.log("running on http://localhost:8000");
 });
+
 // const transport =nodemailer.createTransport
