@@ -10,7 +10,7 @@ const router=useRouter()
     router.push("/login")
   }
   return <div>
-  <p>Homepage</p>
+  <p>Homepagel</p>
 
       {user?.userId}
   </div>
