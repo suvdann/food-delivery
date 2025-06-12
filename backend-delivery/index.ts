@@ -3,6 +3,7 @@ import mongoose, { connect, Schema, model } from "mongoose";
 import bcrypt, { hash } from "bcrypt";
 import cors from "cors";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer"
 const databaseConnect = async () => {
   try {
     await mongoose.connect(
@@ -91,7 +92,29 @@ app.post("/verify", async (request: Request, response: Response) => {
     return;
   }
 });
+//send message
+app.get("/email", async(request:Request, response:Response)=>{
+const transport = nodemailer.createTransport({
+  service:"gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // 
+  auth: {
+    user: "m.erdenesuwd2021@gmail.com",
+    pass: "wojphsgkroauwdoi",
+  },
+});
 
+  const options = {
+    from: '"m.erdenesuwd2021@gmail.com',
+    to: "25LP2729@nest.edu.mn",
+    subject: "hello",
+   html: "<p>Hello world?</p>", 
+  };
+await transport.sendMail(options);
+response.send("success")
+});
 app.listen(8000, () => {
   console.log("running on http://localhost:8000");
 });
+// const transport =nodemailer.createTransport
