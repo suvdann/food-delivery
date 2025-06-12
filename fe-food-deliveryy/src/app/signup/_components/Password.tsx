@@ -45,8 +45,8 @@ export const CreatePassword = ({ backHandler, email }: Props) => {
 
        
         console.log(response, "response");
-        router.push("/");
-      } catch (err) {
+        router.push("/login");
+      } catch (err:any) {
         console.log(err);
         alert(err.response.data.message);
       }
@@ -113,7 +113,7 @@ export const CreatePassword = ({ backHandler, email }: Props) => {
       </form>
       <div className="flex justify-center items-center gap-1">
         <p className="text-[#71717A]">Already have an account?</p>
-        <Button variant="link" className="text-[#2563EB] ">
+        <Button variant="link" className="text-[#2563EB] " onClick={()=>router.push("/login")}>
           Log in
         </Button>
       </div>

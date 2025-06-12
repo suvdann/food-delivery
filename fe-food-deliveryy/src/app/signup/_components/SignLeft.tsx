@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { ChevronLeft } from "lucide-react";
 import { useFormik } from "formik"; //
 import * as Yup from "yup"; //
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 const validationSchemaLogin = Yup.object({
@@ -31,19 +30,9 @@ export const SignLeft = ({ changeHandler, setEmail }: signRightProps) => {
     },
     validationSchema: validationSchemaLogin,
     onSubmit: async (values) => {
-      // try {
-      // const response = await axios.post("http://localhost:8000/signup", {
-      //   email: values.email,
-      // });
       setEmail(values.email);
       changeHandler();
-      // const parsed =await response.json();
-      // console.log(response, "response");
-      // router.push("/");
-      // } catch (err) {
-      //   console.log(err);
-      //   alert(err.response.data.message);
-      // }
+  
     },
   });
   const emailInputProps = {
@@ -80,7 +69,7 @@ export const SignLeft = ({ changeHandler, setEmail }: signRightProps) => {
       </form>
       <div className="flex justify-center items-center gap-1">
         <p className="text-[#71717A]">Already have an account?</p>
-        <Button variant="link" className="text-[#2563EB] ">
+        <Button variant="link" className="text-[#2563EB] "  onClick={()=>router.push("/login")}>
           Log in
         </Button>
       </div>
